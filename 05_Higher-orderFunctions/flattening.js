@@ -1,4 +1,5 @@
 // https://eloquentjavascript.net/05_higher_order.html
+// https://eloquentjavascript.net/code/#5.1
 
 // Flattening
 // ===========

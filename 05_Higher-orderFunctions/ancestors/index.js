@@ -44,6 +44,18 @@ const filterBySex = (coll, sexId) => coll.filter(({ sex }) => sex === sexId);
 // const deathAge = (person) => person.died - person.born;
 const averageAge = coll => average(coll.map(person => deathAge(person)));
 
-console.log('Average age:', averageAge(dataBase));
-console.log('Average age, Male:', averageAge(filterBySex(dataBase, 'm')));
-console.log('Average age, Female:', averageAge(filterBySex(dataBase, 'f')));
+// console.log('Average age:', averageAge(dataBase));
+// console.log('Average age, Male:', averageAge(filterBySex(dataBase, 'm')));
+// console.log('Average age, Female:', averageAge(filterBySex(dataBase, 'f')));
+
+
+// напишем код, находящий средний возраст мужчин и женщин в наборе...
+
+
+const age = personInfo => personInfo.died - personInfo.born;
+const isMale = personInfo => personInfo.sex === 'm';
+const isFemale = personInfo => personInfo.sex === 'f';
+
+console.log('Average age:', averageAge(dataBase.map(age)));
+console.log('Average age, Male:', average(dataBase.filter(isMale).map(age)));
+console.log('Average age, Male:', average(dataBase.filter(isFemale).map(age)));
