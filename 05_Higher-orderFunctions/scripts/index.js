@@ -34,8 +34,9 @@ const countBy = (items, groupName) => {
 
 
 /**
-* Expects a text (like 'Упс! hello, Вася! Χίτλερ!')
-* Returns a string (39% Cyrillic, 28% Latin, 33% Greek)
+* Expects a text (like 'Hello, Вася! Sieg, Χίτλερ! Упс!')
+* Returns a string (41% Latin, 32% Cyrillic, 27% Greek)
+* with sorted by percentage value descending order
 */
 function textScripts(text) {
   const scripts = countBy(text, char => {
@@ -48,16 +49,19 @@ function textScripts(text) {
     (acc, { count }) => acc + count, 0);
   if (totalChars == 0) return "No scripts found";
 
-  const charsShare = scripts.map(
-    ({ name, count }) => `${Math.round(count / totalChars * 100)}% ${name}`
-  );
+  const charsShare = scripts
+    .map(({ name, count }) => ({ name, "share": Math.round(count / totalChars * 100) }))
+    .sort((item1, item2) => item2.share - item1.share);
 
-  return charsShare.join(', ');
+  return charsShare
+  .map(({ name, share }) => `${share}% ${name}`)
+  .join(', ');
 }
 
-const s1 = 'Упс! hello, Вася! Χίτλερ!';
+const s1 = '41% Latin, 32% Cyrillic, 27% Greek';    
 const s2 = '英国的狗说"woof", 俄罗斯的狗说"тяв"';
 
 
-console.log(textScripts(s1));
+console.log(textScripts(s1));   // '41% Latin, 32% Cyrillic, 27% Greek'
 console.log(textScripts(s2));   // '61% Han, 22% Latin, 17% Cyrillic'
+
