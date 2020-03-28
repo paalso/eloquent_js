@@ -65,3 +65,23 @@ const s2 = '英国的狗说"woof", 俄罗斯的狗说"тяв"';
 console.log(textScripts(s1));   // '41% Latin, 32% Cyrillic, 27% Greek'
 console.log(textScripts(s2));   // '61% Han, 22% Latin, 17% Cyrillic'
 
+
+// https://eloquentjavascript.net/code/#5.4
+// Dominant writing direction
+// ===========================
+
+function dominantDirection(text) {
+  const directions = countBy(text,
+    char => {
+      const script = characterScript(char.codePointAt(0), SCRIPTS);
+      return script ? script.direction : null;
+    }).filter(({name}) => name != null);
+  
+  return directions.reduce(
+    (acc, item) => item.count > acc.count ? item : acc
+  ).name;
+}
+
+
+console.log(dominantDirection("Hello!"));           // → ltr
+console.log(dominantDirection("Hey, مساء الخير"));  // → rtl
