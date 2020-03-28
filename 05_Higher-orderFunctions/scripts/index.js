@@ -9,7 +9,6 @@ const characterScript = (code, scripts) => {
     for (const script of scripts)
         if (script.ranges.some(([from, to]) => from <= code && code < to))
             return script;
-
     return null;
 };
 
@@ -34,25 +33,31 @@ const countBy = (items, groupName) => {
 };
 
 
+/**
+* Expects a text (like 'Упс! hello, Вася! Χίτλερ!')
+* Returns a string (39% Cyrillic, 28% Latin, 33% Greek)
+*/
+function textScripts(text) {
+  const scripts = countBy(text, char => {
+    const script = characterScript(char.codePointAt(0), SCRIPTS);
+    return script ? script.name : "null";
+  })
+    .filter(({ name }) => name != "null");
+
+  const totalChars = scripts.reduce(
+    (acc, { count }) => acc + count, 0);
+  if (totalChars == 0) return "No scripts found";
+
+  const charsShare = scripts.map(
+    ({ name, count }) => `${Math.round(count / totalChars * 100)}% ${name}`
+  );
+
+  return charsShare.join(', ');
+}
+
+const s1 = 'Упс! hello, Вася! Χίτλερ!';
+const s2 = '英国的狗说"woof", 俄罗斯的狗说"тяв"';
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// console.log(countBy([1, 2, 3, 4, 5], n => n > 2));
-// → [{name: false, count: 2}, {name: true, count: 3}]
-
-// console.log(countBy(['mama', 'peppa', 'marmelade', 'pete', 'pendulim', 'tart'],
-//     word => word.slice(0, 2))
-// );
+console.log(textScripts(s1));
+console.log(textScripts(s2));   // '61% Han, 22% Latin, 17% Cyrillic'
