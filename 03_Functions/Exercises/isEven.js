@@ -1,3 +1,4 @@
+// https://eloquent-javascript.karmazzin.ru/chapter3#rekursiya-1
 // https://eloquentjavascript.net/03_functions.html
 // https://eloquentjavascript.net/code/#3.2
 
