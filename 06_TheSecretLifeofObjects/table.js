@@ -1,6 +1,5 @@
 // https://eloquent-javascript.karmazzin.ru/chapter6#formatiruem-tablicu
 // https://eloquentjavascript.net/2nd_edition/
-// https://repl.it/@paalso/table#main.js
 
 /*
 name         height country
@@ -316,8 +315,8 @@ UnderlinedCell.prototype.draw = function (width, height) {
 // ---------------------------------------------------------------------------
 
 /**
- * Преобразование в массив стандартизованных для вывода блоков TextCell
- * массива объектов, содержащих исходное содержание таблицы
+ * Трансформирует массив объектов, содержащих исходное содержание таблицы
+ * в массив стандартизованных для вывода блоков TextCell
  * @param {array} data исходный "сырой" массив объектов (см. MOUNTAINS)
  * @return {array} массив массивов, где каждый внутренний массив –
  * это массив ячеек TextCell (объектов, обладающих методами minHeight(), minWidth())
