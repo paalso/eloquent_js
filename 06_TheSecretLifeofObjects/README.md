@@ -23,7 +23,6 @@ var MOUNTAINS = [
 ```
 в одну строку для дальнейшего вывода на экран в "виде красивых таблиц" вроде
 
-<<<<<<< HEAD
     name         height country      
     ------------ ------ -------------
     Kilimanjaro    5895 Africa       
@@ -37,21 +36,6 @@ var MOUNTAINS = [
     Denali         6168 United States
                         (Alaska)     
     Popocatepetl   5465 Mexico    
-=======
-   name         height country      
-   ------------ ------ -------------
-   Kilimanjaro    5895 Africa       
-   (Kenya)                          
-   Everest        8848 Nepal        
-   (Asia)                           
-   Mount Fuji     3776 Japan        
-   (Asia)                           
-   Mont Blanc     4808 Italy/France 
-   Vaalserberg     323 Netherlands  
-   Denali         6168 United States
-                       (Alaska)     
-   Popocatepetl   5465 Mexico    
->>>>>>> 18e07accbf24c77215ef23c7913963c1d05a0031
 
 Преобразование исходного набора данных в массив стандартизованных для вывода блоков осуществляет функция
 ```javascript
