@@ -1,27 +1,27 @@
 
 const plan =
-["############################",
-  "#      #    #      o      ##",
-  "#                          #",
-  "#          #####           #",
-  "##         #   #    ##     #",
-  "###           ##     #     #",
-  "#           ###      #     #",
-  "#   ####                   #",
-  "#   ##       o             #",
-  "# o  #         o       ### #",
-  "#    #                     #",
-  "############################"];
+  ["############################",
+    "#      #    #      o      ##",
+    "#                          #",
+    "#          #####           #",
+    "##         #   #    ##     #",
+    "###           ##     #     #",
+    "#           ###      #     #",
+    "#   ####                   #",
+    "#   ##       o             #",
+    "# o  #         o       ### #",
+    "#    #                     #",
+    "############################"];
 
 const directions = {
-"n": new Vector(0, -1),
-"ne": new Vector(1, -1),
-"e": new Vector(1, 0),
-"se": new Vector(1, 1),
-"s": new Vector(0, 1),
-"sw": new Vector(-1, 1),
-"w": new Vector(-1, 0),
-"nw": new Vector(-1, -1)
+  "n": new Vector(0, -1),
+  "ne": new Vector(1, -1),
+  "e": new Vector(1, 0),
+  "se": new Vector(1, 1),
+  "s": new Vector(0, 1),
+  "sw": new Vector(-1, 1),
+  "w": new Vector(-1, 0),
+  "nw": new Vector(-1, -1)
 };
 
 
@@ -34,8 +34,8 @@ const directions = {
 * @param {number} y x-координата
 */
 function Vector(x, y) {
-this.x = x;
-this.y = y;
+  this.x = x;
+  this.y = y;
 }
 /**
 * Возвращает длину окружности, вычисленную заранее.
@@ -45,7 +45,7 @@ this.y = y;
 * @return {Vector} Сумма данного вектора и other
 */
 Vector.prototype.plus = function (other) {
-return new Vector(this.x + other.x, this.y + other.y);
+  return new Vector(this.x + other.x, this.y + other.y);
 };
 
 /**
@@ -57,9 +57,9 @@ return new Vector(this.x + other.x, this.y + other.y);
 * @param {number} height высота
 */
 function Grid(width, height) {
-this.space = new Array(width * height);
-this.width = width;
-this.height = height;
+  this.space = new Array(width * height);
+  this.width = width;
+  this.height = height;
 }
 /**
 * Предикат - лежит ли заданная точка внутри сетки
@@ -69,8 +69,8 @@ this.height = height;
 * @return {boolean} лежит ли точка, заданная vector, внутри сетки
 */
 Grid.prototype.isInside = function (vector) {
-const [x, y] = [vector.x, vector.y];
-return 0 <= x && x < this.width && 0 <= y && y < this.height;
+  const [x, y] = [vector.x, vector.y];
+  return 0 <= x && x < this.width && 0 <= y && y < this.height;
 };
 /**
 * Возвращает объект, находящийся в заданной точке
@@ -81,7 +81,7 @@ return 0 <= x && x < this.width && 0 <= y && y < this.height;
 * с координатой vector
 */
 Grid.prototype.get = function (vector) {
-return this.space[vector.y * this.width + vector.x];
+  return this.space[vector.y * this.width + vector.x];
 };
 /**
 * Помещает объект в заданную точку
@@ -91,7 +91,7 @@ return this.space[vector.y * this.width + vector.x];
 * @param {object} value объект - элемент мира
 */
 Grid.prototype.set = function (vector, value) {
-this.space[vector.y * this.width + vector.x] = value;
+  this.space[vector.y * this.width + vector.x] = value;
 };
 
 /**
@@ -100,7 +100,7 @@ this.space[vector.y * this.width + vector.x] = value;
 * @return случайный элемент массива
 */
 function randomElement(array) {
-return array[Math.floor(Math.random() * array.length)];
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 /**
@@ -113,7 +113,7 @@ return array[Math.floor(Math.random() * array.length)];
 * @this {BouncingCritter}
 */
 function BouncingCritter() {
-this.direction = randomElement(Object.keys(directions));
+  this.direction = randomElement(Object.keys(directions));
 }
 
 // У каждого объекта существа есть метод act, который при вызове возвращает
@@ -135,11 +135,11 @@ this.direction = randomElement(Object.keys(directions));
 * @return {object} поведение - движение 
 */
 BouncingCritter.prototype.act = function (view) {
-// У объекта view есть метод look, принимающий направление и возвращает
-// символ, к примеру "#", если там стена, или пробел, если там ничего нет.
-if (view.look(this.direction) != " ")
-  this.direction = view.find(" ") || "s";
-return { type: "move", direction: this.direction };
+  // У объекта view есть метод look, принимающий направление и возвращает
+  // символ, к примеру "#", если там стена, или пробел, если там ничего нет.
+  if (view.look(this.direction) != " ")
+    this.direction = view.find(" ") || "s";
+  return { type: "move", direction: this.direction };
 };
 // ---------------------------------------------------------------------
 
@@ -153,13 +153,13 @@ return { type: "move", direction: this.direction };
 * @return {object} Объект - элемент "мира"
 */
 function elementFromChar(legend, ch) {
-if (ch == " ")
-  return null;
-var element = new legend[ch]();
-// добавляем свойство originChar, чтобы было просто выяснить, из какого
-// символа элемент был создан изначально.
-element.originChar = ch;
-return element;
+  if (ch == " ")
+    return null;
+  var element = new legend[ch]();
+  // добавляем свойство originChar, чтобы было просто выяснить, из какого
+  // символа элемент был создан изначально.
+  element.originChar = ch;
+  return element;
 }
 
 /**
@@ -173,24 +173,24 @@ return element;
 * напр. { "#": Wall, "o": BouncingCritter }
 */
 function World(map, legend) {
-this.legend = legend;
+  this.legend = legend;
 
-const grid = new Grid(map[0].length, map.length);   // width * height
-this.grid = grid;
-// внутри функции, передаваемой в forEach, мы уже не находимся непосредственно
-// в области видимости конструктора.Каждый вызов функции получает своё
-// пространство имён, поэтому this внутри неё уже не ссылается на создаваемый
-// объект, на который ссылается this снаружи функции. И вообще, если функция
-// вызывается не как метод, this будет относиться к глобальному объекту.
-// Значит, мы не можем писать this.grid для доступа к сетке изнутри цикла.
-// Вместо этого внешняя функция создаёт локальную переменную grid, через
-// которую внутренняя функция получает доступ к сетке.
+  const grid = new Grid(map[0].length, map.length);   // width * height
+  this.grid = grid;
+  // внутри функции, передаваемой в forEach, мы уже не находимся непосредственно
+  // в области видимости конструктора.Каждый вызов функции получает своё
+  // пространство имён, поэтому this внутри неё уже не ссылается на создаваемый
+  // объект, на который ссылается this снаружи функции. И вообще, если функция
+  // вызывается не как метод, this будет относиться к глобальному объекту.
+  // Значит, мы не можем писать this.grid для доступа к сетке изнутри цикла.
+  // Вместо этого внешняя функция создаёт локальную переменную grid, через
+  // которую внутренняя функция получает доступ к сетке.
 
-map.forEach(function (line, y) {    // установка на карту элементов мира
-  for (var x = 0; x < line.length; x++)
-    grid.set(new Vector(x, y),    // неправильно: this.grid.set ...
-      elementFromChar(legend, line[x]));
-});
+  map.forEach(function (line, y) {    // установка на карту элементов мира
+    for (var x = 0; x < line.length; x++)
+      grid.set(new Vector(x, y),    // неправильно: this.grid.set ...
+        elementFromChar(legend, line[x]));
+  });
 }
 
 /**
@@ -200,10 +200,10 @@ map.forEach(function (line, y) {    // установка на карту эле
 * @return {string} изображение элемента мира ("o" или "#")
 */
 function charFromElement(element) {
-if (element == null)
-  return " ";
-else
-  return element.originChar;
+  if (element == null)
+    return " ";
+  else
+    return element.originChar;
 }
 
 /**
@@ -213,15 +213,15 @@ else
 * @return {string} строчное изображение объекта World
 */
 World.prototype.toString = function () {
-var output = "";
-for (var y = 0; y < this.grid.height; y++) {
-  for (var x = 0; x < this.grid.width; x++) {
-    var element = this.grid.get(new Vector(x, y));
-    output += charFromElement(element);
+  var output = "";
+  for (var y = 0; y < this.grid.height; y++) {
+    for (var x = 0; x < this.grid.width; x++) {
+      var element = this.grid.get(new Vector(x, y));
+      output += charFromElement(element);
+    }
+    output += "\n";
   }
-  output += "\n";
-}
-return output;
+  return output;
 };
 
 /**
@@ -241,21 +241,21 @@ function Wall() { }
 * @this {World}
 */
 World.prototype.turn = function () {
-// массив существ, которые уже сделали свой шаг - чтобы
-var acted = [];     // игнорировать их при дальнейшем проходе.
+  // массив существ, которые уже сделали свой шаг - чтобы
+  var acted = [];     // игнорировать их при дальнейшем проходе.
 
-// !!!! Вот здесь я не понимаю! Аргументом функции, к-я передается в forEach
-// должен быть элемент массива this.grid , т.е. элемент мира (в т.ч.
-// это может быть critter; но почему передается еще и vector?
-this.grid.forEach(function (critter, vector) {
-  if (critter.act &&                // у critter есть метод act
-    acted.indexOf(critter) == -1) { // текущий critter еще не ходил
-    acted.push(critter);  // добавить текущего critter в список сделаших ход
-    this.letAct(critter, vector);
-  }
-}, this); // второй параметр метода forEach (this) используется для доступа
-// к правильной переменной this во внутренней функции
-// см. https://eloquent-javascript.karmazzin.ru/chapter7#this-i-ego-oblast-vidimosti
+  // !!!! Вот здесь я не понимаю! Аргументом функции, к-я передается в forEach
+  // должен быть элемент массива this.grid , т.е. элемент мира (в т.ч.
+  // это может быть critter; но почему передается еще и vector?
+  this.grid.forEach(function (critter, vector) {
+    if (critter.act &&                // у critter есть метод act
+      acted.indexOf(critter) == -1) { // текущий critter еще не ходил
+      acted.push(critter);  // добавить текущего critter в список сделаших ход
+      this.letAct(critter, vector);
+    }
+  }, this); // второй параметр метода forEach (this) используется для доступа
+  // к правильной переменной this во внутренней функции
+  // см. https://eloquent-javascript.karmazzin.ru/chapter7#this-i-ego-oblast-vidimosti
 };
 
 /**
@@ -269,23 +269,23 @@ this.grid.forEach(function (critter, vector) {
 * @param {Vector} vector текущая клетка
 */
 World.prototype.letAct = function (critter, vector) {
-// Метод act возвращает какое-либо действие.
-var action = critter.act(new View(this, vector));
-if (action && action.type == "move") {  // Если “move”
-  // и если у него есть свойство direction, ссылающееся на допустимое
-  // направление, и если клетка в этом направлении пустует (null), мы
-  // назначаем клетке, где только что было существо, null, и сохраняем
-  // существо в клетке назначения.
-  // dest - это клетка, в к-й окажется существо, если движение легитимно
-  var dest = this.checkDestination(action, vector);
-  if (dest && this.grid.get(dest) == null) {
-    this.grid.set(vector, null);
-    this.grid.set(dest, critter);
-  } // Если тип действия не “move”, оно игнорируется.
-}
-// letAct заботится об игнорировании неправильных входных данных. Он не
-// предполагает по умолчанию, что направление допустимо, или, что свойство
-// типа имеет смысл.
+  // Метод act возвращает какое-либо действие.
+  var action = critter.act(new View(this, vector));
+  if (action && action.type == "move") {  // Если “move”
+    // и если у него есть свойство direction, ссылающееся на допустимое
+    // направление, и если клетка в этом направлении пустует (null), мы
+    // назначаем клетке, где только что было существо, null, и сохраняем
+    // существо в клетке назначения.
+    // dest - это клетка, в к-й окажется существо, если движение легитимно
+    var dest = this.checkDestination(action, vector);
+    if (dest && this.grid.get(dest) == null) {
+      this.grid.set(vector, null);
+      this.grid.set(dest, critter);
+    } // Если тип действия не “move”, оно игнорируется.
+  }
+  // letAct заботится об игнорировании неправильных входных данных. Он не
+  // предполагает по умолчанию, что направление допустимо, или, что свойство
+  // типа имеет смысл.
 };
 
 /**
@@ -298,11 +298,11 @@ if (action && action.type == "move") {  // Если “move”
 * @return {Vector} соседняя клетка - результат action, если внутри grid 
 */
 World.prototype.checkDestination = function (action, vector) {
-if (directions.hasOwnProperty(action.direction)) {
-  var dest = vector.plus(directions[action.direction]);
-  if (this.grid.isInside(dest))
-    return dest;
-}
+  if (directions.hasOwnProperty(action.direction)) {
+    var dest = vector.plus(directions[action.direction]);
+    if (this.grid.isInside(dest))
+      return dest;
+  }
 };
 
 /**
@@ -314,8 +314,8 @@ if (directions.hasOwnProperty(action.direction)) {
 * @param {Vector} vector точка, из к-й происходит анализ - осмотр мира
 */
 function View(world, vector) {
-this.world = world;
-this.vector = vector;
+  this.world = world;
+  this.vector = vector;
 }
 /**
 * Добавляет к объекту View свойство look, осуществляющее осмотр
@@ -328,12 +328,12 @@ this.vector = vector;
 * @return {string} символ, соответствующий элементу, находящемуся в соседней
 */
 View.prototype.look = function (dir) {
-// текущая точка-вектор + вектор, в направлении к-го смотрим.. 
-var target = this.vector.plus(directions[dir]);
-if (this.world.grid.isInside(target))
-  return charFromElement(this.world.grid.get(target));
-else
-  return "#";
+  // текущая точка-вектор + вектор, в направлении к-го смотрим.. 
+  var target = this.vector.plus(directions[dir]);
+  if (this.world.grid.isInside(target))
+    return charFromElement(this.world.grid.get(target));
+  else
+    return "#";
 };
 /**
 * Добавляет к объекту View свойство findAll, осуществляющее поиск заданного
@@ -344,11 +344,11 @@ else
 * @return {array} массив направлений - dirs, в к-х находится искомый ch
 */
 View.prototype.findAll = function (ch) {
-var found = [];
-for (var dir in directions)
-  if (this.look(dir) == ch)
-    found.push(dir);
-return found;
+  var found = [];
+  for (var dir in directions)
+    if (this.look(dir) == ch)
+      found.push(dir);
+  return found;
 };
 /**
 * Добавляет к объекту View свойство findAll, осуществляющее поиск заданного
@@ -360,12 +360,75 @@ return found;
 * null, если таковых нет 
 */
 View.prototype.find = function (ch) {
-var found = this.findAll(ch);
-if (found.length == 0) return null;
-return randomElement(found);
+  var found = this.findAll(ch);
+  if (found.length == 0) return null;
+  return randomElement(found);
 };
+
+
+const directionNames = Object.keys(directions); // ["n", "ne", "e", ...]
+
+/**
+* Вычисляет новое направление при повороте от направления dir на n делений
+* в 45 градусов по часовой стрелке
+* dirPlus("n", 1) === "ne"
+* dirPlus("s", -2) === "e"
+*
+* @param {string} dir исходное направление
+* @param {number} n количество углов по 45 градусов, на к-е происходит поворот
+* (по часовой стрелке)
+* @return {string} новое направление
+*/
+function dirPlus(dir, n) {
+  var index = directionNames.indexOf(dir);
+  return directionNames[(index + n + 8) % 8];
+  // ... + 8 чтобы корректно обработать n < 0
+}
+
 
 
 // -----------------------------------------------------------------------
 var world = new World(plan, { "#": Wall, "o": BouncingCritter });
 console.log(world.toString());
+
+/**
+* Конструктор объекта WallFollower. Создает существо, к-е двигается
+* только вдоль стенки, держась за нее левой рукой
+* 
+* @constructor
+* @this {WallFollower}
+*/
+function WallFollower() {
+  this.dir = "s";
+}
+
+/**
+* Добавляет к объекту View свойство act, обеспечивающее движение вдоль стены
+* касаясь ее левой рукой
+*
+* @this {WallFollower}
+* @param {View} view обеспечивает возможность осматривать окрестности
+* @return {object} поведение - ход 
+*/
+WallFollower.prototype.act = function (view) {
+  var start = this.dir;
+
+  // существо может оказаться вдали от стен на пустом пространстве —
+  // либо обходя другое существо, либо изначально оказавшись там, поэтому
+  // ещё одна проверка через if, что сканирование нужно начинать, если существо
+  // только что прошло мимо какого-либо препятствия. То есть, если пространство
+  // сзади и слева не пустое.
+  if (view.look(dirPlus(this.dir, -3)) != " ")
+    start = this.dir = dirPlus(this.dir, -2);
+
+  // в противном случае сканировать начинаем впереди, поэтому в пустом
+  // пространстве он будет идти прямо:
+  // сканирует окружение существа, начиная с левой стороны и дальше по часовой,
+  // пока не находит пустую клетку
+  while (view.look(this.dir) != " ") {
+    this.dir = dirPlus(this.dir, 1);
+    if (this.dir == start) break;
+  }
+  // Затем он двигается в направлении этой клетки.
+  return { type: "move", direction: this.dir };
+};
