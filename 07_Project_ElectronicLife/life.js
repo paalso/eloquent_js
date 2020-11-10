@@ -432,3 +432,51 @@ WallFollower.prototype.act = function (view) {
   // Затем он двигается в направлении этой клетки.
   return { type: "move", direction: this.dir };
 };
+
+/**
+* Конструктор объекта LifelikeWorld, к-й наследуется от World.
+* Создает более реалистичный и сложный мир
+* 
+* @constructor
+* @this {LifelikeWorld}
+* @param {array} map карта мира - массив строк
+* @param {object} legend - объект "легенда", сообщающий, что означает каждый
+* из символов карты типа обозначение: значение
+* напр. { "#": Wall, "o": BouncingCritter }
+*/
+function LifelikeWorld(map, legend) {
+  World.call(this, map, legend);
+}
+LifelikeWorld.prototype = Object.create(World.prototype);
+
+// Набор различных функций по совершению действий
+var actionTypes = Object.create(null);  // объект без прототипа - зачем?
+
+/**
+* Добавляет к объекту World более сложную и реалистичную логику
+*   
+* @this {World}
+* @param {BouncingCritter} critter существо
+* @param {Vector} vector текущая клетка
+*/
+LifelikeWorld.prototype.letAct = function (critter, vector) {
+  // действие - движение существа critter,
+  // формат { type: "move", direction: this.direction }
+  var action = critter.act(new View(this, vector));
+  // Метод проверяет
+  var handled = action && // было ли передано хоть какое-то действие?
+    action.type in actionTypes && // есть ли функция, обрабатывающая его?
+    // возвращает ли эта функция true, показывая, что действие выполнено успешно
+    actionTypes[action.type].call(this, critter,
+      vector, action);
+  // Если действие по какой-либо причине не сработало, действием по умолчанию
+  // для существа будет ожидание. Он теряет 0.2 единицы энергии, а когда его
+  // уровень энергии падает ниже нуля, он умирает и исчезает с сетки.
+  if (!handled) {
+    critter.energy -= 0.2;
+    if (critter.energy <= 0)
+      this.grid.set(vector, null);
+  }
+};
+
+
