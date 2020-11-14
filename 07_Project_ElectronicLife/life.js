@@ -450,7 +450,58 @@ function LifelikeWorld(map, legend) {
 LifelikeWorld.prototype = Object.create(World.prototype);
 
 // Набор различных функций по совершению действий
-var actionTypes = Object.create(null);  // объект без прототипа - зачем?
+const actionTypes = Object.create(null);  // объект без прототипа - зачем?
+
+// действие: рост - его используют растения, рост всегда успешен и
+// добавляет половину единицы к энергетическому уровню растения
+actionTypes.grow = function (critter) {
+  critter.energy += 0.5;
+  return true;
+};
+
+// действие: движение
+actionTypes.move = function (critter, vector, action) {
+  // А вот здесь непонятно было: к чему относится этот this? 
+  // Ведь move - это свойство объекта actionTypes
+  // Посему же ниже this ведет себя как будто относится к  World?
+  var dest = this.checkDestination(action, vector);
+  if (dest == null || // предоставляет ли действие допустимое направление?
+    critter.energy <= 1 ||  // не хватает энергии
+    this.grid.get(dest) != null)  // не пустой участок в направлении движения
+    return false;   // действие не состоялось
+  critter.energy -= 1;  // вычитаем энергию, к-я ушла на движение
+  this.grid.set(vector, null);  // двигаем существо
+  this.grid.set(dest, critter);
+  return true;
+};
+
+// действие: питание
+actionTypes.eat = function (critter, vector, action) {
+  var dest = this.checkDestination(action, vector);
+  var atDest = dest != null && this.grid.get(dest);
+  if (!atDest || atDest.energy == null)
+    return false;
+  // если питание удалось, энергия съеденного переходит к едоку,
+  // а жертва удаляется с сетки
+  critter.energy += atDest.energy;
+  this.grid.set(dest, null);
+  return true;
+};
+
+// действие: размножение
+actionTypes.reproduce = function (critter, vector, action) {
+  var baby = elementFromChar(this.legend,
+    critter.originChar);
+  var dest = this.checkDestination(action, vector);
+  if (dest == null ||
+    critter.energy <= 2 * baby.energy ||
+    this.grid.get(dest) != null)
+    return false;
+  critter.energy -= 2 * baby.energy;
+  this.grid.set(dest, baby);
+  return true;
+};
+
 
 /**
 * Добавляет к объекту World более сложную и реалистичную логику
@@ -460,8 +511,8 @@ var actionTypes = Object.create(null);  // объект без прототип�
 * @param {Vector} vector текущая клетка
 */
 LifelikeWorld.prototype.letAct = function (critter, vector) {
-  // действие - движение существа critter,
-  // формат { type: "move", direction: this.direction }
+  // действие - движение существа critter, например:
+  // { type: "move", direction: this.direction }
   var action = critter.act(new View(this, vector));
   // Метод проверяет
   var handled = action && // было ли передано хоть какое-то действие?
