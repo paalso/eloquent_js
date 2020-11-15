@@ -530,4 +530,77 @@ LifelikeWorld.prototype.letAct = function (critter, vector) {
   }
 };
 
+/**
+* Конструктор объекта Plant - растение
+* 
+* @constructor
+* @this {Plant}
+*/
+function Plant() {
+  // Растения начинают со случайного уровня энергии от 3 до 7,
+  // чтобы они не размножались все в один ход
+  this.energy = 3 + Math.random() * 4;
+}
+/**
+* Добавляет к объекту Plant свойство act-"действие"
+*   
+* @this {Plant}
+* @param {View} context окружение (то что видит?) существо
+* @return {object} тип поведения? 
+*/
+Plant.prototype.act = function (context) {
+  if (this.energy > 15) {
+    var space = context.find(" ");
+    // Когда растение достигает энергии 15, а рядом есть пустая клетка – 
+    // оно размножается в неё
+    if (space)
+      return { type: "reproduce", direction: space };
+  }
+  if (this.energy < 20)       // Если оно не может размножиться, то 
+    return { type: "grow" };  // просто растёт, пока не достигнет энергии 20
+};
 
+/**
+* Конструктор объекта PlantEater - поедатель растений
+* 
+* @constructor
+* @this {PlantEater}
+*/
+function PlantEater() {
+  this.energy = 20;
+}
+/**
+* Добавляет к объекту PlantEater свойство act-"действие"
+*   
+* @this {PlantEater}
+* @param {View} context окружение (то что видит?) существо
+* @return {object} тип поведения? 
+*/
+PlantEater.prototype.act = function (context) {
+  var space = context.find(" ");
+  if (this.energy > 60 && space)
+    return { type: "reproduce", direction: space };
+  var plant = context.find("*");
+  if (plant)
+    return { type: "eat", direction: plant };
+  if (space)
+    return { type: "move", direction: space };
+};
+
+var valley = new LifelikeWorld(
+  ["############################",
+   "#####                 ######",
+   "##   ***                **##",
+   "#   *##**         **  O  *##",
+   "#    ***     O    ##**    *#",
+   "#       O         ##***    #",
+   "#                 ##**     #",
+   "#   O       #*             #",
+   "#*          #**       O    #",
+   "#***        ##**    O    **#",
+   "##****     ###***       *###",
+   "############################"],
+  {"#": Wall,
+   "O": PlantEater,
+   "*": Plant}
+);
