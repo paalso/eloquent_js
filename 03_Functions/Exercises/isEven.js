@@ -5,11 +5,14 @@
 // Recursion
 // ==========
 
-const isEven = (num) => {
-  if (num === 0) return true;
-  if (num === 1) return false;
-  const step = num > 0 ? 2 : -2;
-  return isEven(num - step);
+const isEven = n => {
+  if (n === 0)
+    return true;
+  
+    n = Math.abs(n);
+  if (n === 1)
+    return false;
+  return isEven(n - 2);
 }
 
 console.log(isEven(50));
