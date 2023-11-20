@@ -6,19 +6,27 @@
 // число, пытается найти последовательность таких сложений и умножений, которые
 // приводят к заданному числу?
 
-function findSolution(target) {
-    function helper(next, expression) {
-        if (next === target)
-            return expression;
-        if (next > target)
-            return null;
-        return helper(next + 5, `(${expression} + 5)`) || helper(next * 3, `(${expression} * 3)`);
-    }
-    return helper(1, "1");
+const findSolution = number => {
+  const helper = (n, solution) => {
+    if (n === number)
+      return solution;
+    if (n > number)
+      return null;
+
+    // Устраняем лишние скобки
+    // На самом деле можно усовершенствовать, чтобы не получать
+    // выражения типа ((1 + 5 + 5) * 3) * 3
+    const multipliedResultString =
+      solution.includes('+') ? `(${solution}) * 3` : `${solution} * 3`;
+    
+      return helper(n + 5, `${solution} + 5`) ||
+             helper(n * 3, multipliedResultString);
+  };
+  return helper(1, '1');
 }
 
-for (let index = 3; index < 100; index++) {
-    console.log(`${index} = ${findSolution(index)}`)
+for (let k = 2; k < 100; k++) {
+  console.log(`${String(k).padStart(3)} = ${findSolution(k)}`);
 }
 
 /*
