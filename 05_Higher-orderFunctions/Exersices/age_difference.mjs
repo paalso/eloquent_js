@@ -4,7 +4,7 @@ https://karmazzin.gitbook.io/eloquentjavascript_ru/chapter5#raznica-v-vozraste-m
 https://eloquentjavascript.net/2nd_edition/05_higher_order.html
 
 Sandbox:
-https://eloquentjavascript.net/code/#5.2
+https://eloquentjavascript.net/2nd_edition/code/#5.2
 */
 
 // Mother-child age difference

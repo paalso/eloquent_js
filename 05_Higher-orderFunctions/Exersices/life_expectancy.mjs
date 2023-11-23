@@ -4,7 +4,7 @@ https://karmazzin.gitbook.io/eloquentjavascript_ru/chapter5#istoricheskaya-ozhid
 https://eloquentjavascript.net/2nd_edition/05_higher_order.html
 
 Sandbox:
-https://eloquentjavascript.net/code/#5.3
+https://eloquentjavascript.net/2nd_edition/code/#5.3
 */
 
 // Historical life expectancy
